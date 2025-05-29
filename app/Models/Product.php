@@ -2,10 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @OA\Schema(
+ *     schema="Product",
+ *     type="object"
+ * )
+ */
 class Product extends Model
 {
     use HasFactory;

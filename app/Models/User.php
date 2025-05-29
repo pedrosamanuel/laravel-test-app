@@ -3,15 +3,19 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Notifications\ResetPasswordNotification;
+use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+
 class User extends Authenticatable
 {
     
-    use HasFactory, Notifiable,HasApiTokens;
+    use HasFactory, Notifiable,HasApiTokens,CanResetPassword;
 
     protected $fillable = [
         'name',
@@ -43,5 +47,10 @@ class User extends Authenticatable
     }
      public function products(){
         return $this->hasMany(Product::class);
+    }
+    public function sendPasswordResetNotification($token)
+    {
+        $url = 'http://frontend-app/reset?token=' . $token;
+        $this->notify(new ResetPasswordNotification($url));
     }
 }
